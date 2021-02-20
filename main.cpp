@@ -1,6 +1,5 @@
 /*
-    Code for black jack game
-    Reyadath Ullah
+Reyadath Ullah
 */
 #include <bits/stdc++.h>
 using namespace std;
