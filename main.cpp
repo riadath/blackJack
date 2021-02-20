@@ -216,7 +216,7 @@ int main()
     while(true){
         for(int i = 0;i < 13;i++)cardCount[i] = 4;
         cout<<"\nYOUR CURRENT BALANCE : "<<initialBalance<<"\n\n";
-        printf("Do you want to play?\n1-Start\n0-Exit\n");
+        printf("\n1-Start\n0-Exit\n");
         int cmd;
         cin>>cmd;
         if(cmd == 0)break;
