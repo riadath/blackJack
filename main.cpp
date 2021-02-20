@@ -23,9 +23,12 @@ bool comp(const pii &a, const pii &b){
 //variables
 char cards[] = {'A','K','Q','J','2','3','4','5','6','7','8','9','T'};
 int value[] = {11,10,10,10,2,3,4,5,6,7,8,9,10};
+
 map<char,string>cardsToShow;
 int initialBalance;
 int cardCount[15];
+
+//printing the current hand of dealer and player
 void printHand(vector<int>cardList,int total,string whos){
     cout<<"\n"<<whos<<" Hand : \n";
     for(int i = 0;i < (int)cardList.size();i++){
@@ -33,7 +36,7 @@ void printHand(vector<int>cardList,int total,string whos){
     }
     cout<<whos<<" Total :"<<total<<"\n";
 }
-
+//taking a valid bet as input
 int takeBet(){
     int bet;
     printf("How much do you want to bet?\n");
@@ -53,7 +56,7 @@ int takeBet(){
     }
     return bet;
 }
-
+//returns 4 random numers for the first draw
 pair<pii,pii> randomNumber(){
     int card1 = rand()%13;
     int card2;
@@ -76,6 +79,7 @@ pair<pii,pii> randomNumber(){
     cardCount[card4]--;
     return mp(mp(card1,card2),mp(card3,card4));
 }
+//returns a single random number
 int singleRandom(){
     int card;
     while(true){
@@ -105,7 +109,7 @@ void start(){
     if(hand.se.fi == 0 && hand.se.se == 0)playerTotal += value[hand.se.fi] + 1;
     else playerTotal += value[hand.se.fi] + value[hand.se.se];
    
-    //if first hands gets player 21
+    //if the player gets 21 on the first draw
     if(playerTotal == 21){
         if(dealerTotal == 21){
             printf("\nDraw\n");
@@ -144,6 +148,8 @@ void start(){
         }
         else printf("Enter 1 to hit and 2 to stand\n");
     }
+    //player busts
+
     if(playerTotal > 21){
         printHand(dealerCard,dealerTotal,"Dealers");
         printHand(playerCard,playerTotal,"Your");
@@ -151,7 +157,7 @@ void start(){
         initialBalance -= bet;
         return;
     }
-
+    //dealer takes card until he's reached 17 or higher
     while(dealerTotal < 17){
         int card = singleRandom();
         if(card == 0){
@@ -188,16 +194,12 @@ int main()
 {
     time_t t;
 	srand((unsigned)time(&t));
-
+    
     printf("++++++++++++++++++++++++++++++++++\n");
     printf("\tB L A C K J A C K\n");
     printf("++++++++++++++++++++++++++++++++++\n");
-    FILE *fp = fopen("balance.in","r");
+    FILE *fp = fopen("balance","r");
     fscanf(fp,"%d",&initialBalance);
-    if(initialBalance < 69){
-        printf("\n+++++++++++\n69$ Added to your account.\n+++++++++++\n");
-        initialBalance += 69;
-    }
     cardsToShow['A'] = "A";
     cardsToShow['K'] = "K";
     cardsToShow['Q'] = "Q";
@@ -213,6 +215,10 @@ int main()
     cardsToShow['T'] = "10";
     
     while(true){
+         if(initialBalance < 69){
+            printf("\n+++++++++++\n69$ Added to your account.\n+++++++++++\n");
+            initialBalance += 69;
+        }
         for(int i = 0;i < 13;i++)cardCount[i] = 4;
         cout<<"\nYOUR CURRENT BALANCE : "<<initialBalance<<"\n\n";
         printf("\n1-Start\n0-Exit\n");
@@ -220,12 +226,9 @@ int main()
         cin>>cmd;
         if(cmd == 0)break;
             start();
-        if(initialBalance < 69){
-            printf("\n+++++++++++\n69$ Added to your account.\n+++++++++++\n");
-            initialBalance += 69;
-        }
+       
     }
-    FILE *fp2 = fopen("balance.in","w");
+    FILE *fp2 = fopen("balance","w");
     fprintf(fp2,"%d",initialBalance);
     return 0;
 }
